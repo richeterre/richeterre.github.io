@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+position: 1
 ---
 
 Hello there!
