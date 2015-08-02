@@ -6,6 +6,7 @@ description: > # this means to ignore newlines until "baseurl:"
   travel and iOS development, and is pretty indifferent about coffee.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://www.martinrichter.net" # the base hostname & protocol for your site
+permalink: /blog/:categories/:year/:month/:day/:title/
 twitter_username: richeterre
 github_username:  richeterre
 
