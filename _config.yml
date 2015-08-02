@@ -15,3 +15,7 @@ markdown: kramdown
 # Plugins
 gems:
   - jemoji
+
+# Analytics
+analytics:
+  tracking_id: 'UA-65897328-1'
