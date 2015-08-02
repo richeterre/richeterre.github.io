@@ -3,7 +3,7 @@ title: Martin Richter
 email: me@martinrichter.net
 description: > # this means to ignore newlines until "baseurl:"
   I'm a Berlin-based software professional who loves languages,
-  places and iOS development, and is pretty indifferent about coffee.
+  travel and iOS development, and is pretty indifferent about coffee.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://www.martinrichter.net" # the base hostname & protocol for your site
 twitter_username: richeterre
