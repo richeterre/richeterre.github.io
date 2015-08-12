@@ -25,6 +25,10 @@ As summer came, Swift became mature, and the ReactiveCocoa 3 betas began to stab
 
 The result is, somewhat predictably, __[SwiftGoal][swiftgoal]__ – now on GitHub for your reading pleasure! :smiley:
 
+![SwiftGoal's New Match screen]({{ site.baseurl }}/resources/swiftgoal-new-match.png)
+![SwiftGoal's Matches screen]({{ site.baseurl }}/resources/swiftgoal-matches.png)
+![SwiftGoal's Rankings screen]({{ site.baseurl }}/resources/swiftgoal-rankings.png)
+
 ## What's Next
 
 In the upcoming posts, I will explain my learnings in more detail, answering all the above questions as well as the following:
