@@ -10,7 +10,7 @@ url: "http://www.martinrichter.net"
 google_analytics: "UA-65897328-1"
 
 # Optional features
-animated: false
+animated: true
 show_related_posts: false
 show_post_footers: false
 show_social_icons: true
