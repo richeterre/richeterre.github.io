@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "MVVM with ReactiveCocoa 3, in Swift"
+date: 2015-08-12 01:45:00+0200
 summary: "There are plenty of good introductions to the MVVM architecture on iOS. The next challenge is to apply these concepts in a real-world scenario! To find out how this could look like, I created an open-source Swift app that interacts with a remote server, using the brand-new ReactiveCocoa 3."
 ---
 

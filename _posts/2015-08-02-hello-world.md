@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Hello World!"
-date:   2015-08-02 19:45:00
+title: "Hello World!"
+date: 2015-08-02 19:45:00+0200
 summary: "In which I make sure that everything works smoothly."
 ---
 
