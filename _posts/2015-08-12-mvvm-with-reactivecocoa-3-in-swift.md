@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "MVVM with ReactiveCocoa 3, in Swift"
+summary: "There are plenty of good introductions to the MVVM architecture on iOS. The next challenge is to apply these concepts in a real-world scenario! To find out how this could look like, I created an open-source Swift app that interacts with a remote server, using the brand-new ReactiveCocoa 3."
 ---
 
 Despite its somewhat unwieldy name, the __Model-View-ViewModel (MVVM)__ architecture has been gaining lots of traction in the iOS developer community in the last few years. This is no coincidence, as during that time, said community has also acquired a taste for [unit testing][nshipster-unit-testing] and [reactive programming][reactivecocoa], both of which are closely related to the concept, as we shall see.

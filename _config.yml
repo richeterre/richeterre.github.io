@@ -1,22 +1,59 @@
 # Site settings
 title: Martin Richter
 email: me@martinrichter.net
-description: > # this means to ignore newlines until "baseurl:"
-  I'm a Berlin-based software professional who loves languages,
-  travel and iOS development, and is pretty indifferent about coffee.
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://www.martinrichter.net" # the base hostname & protocol for your site
-permalink: /blog/:categories/:year/:month/:day/:title/
+author: Martin Richter
+description: "A personal blog on software development, society, and other things."
+baseurl: ""
+url: "http://www.martinrichter.net"
+
+# Google analytics
+google_analytics: "UA-65897328-1"
+
+# Optional features
+animated: false
+show_related_posts: false
+show_post_footers: false
+show_social_icons: true
+
+# Disqus post comments
+# (leave blank to disable Disqus)
+disqus_shortname:
+
+# Social icons
+github_username: richeterre
+bitbucket_username:
+stackoverflow_id:
 twitter_username: richeterre
-github_username:  richeterre
+google_plus_id:
+linkedin_username:
+angellist_username:
+medium_id:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Post sharing icons
+show_sharing_icons: false
+share_text: 'Share this post:'
+# Change to 'true' to enable individual icons
+share_facebook: false
+share_twitter: true
+share_googleplus: false
+share_linkedin: false
+share_digg: false
+share_tumblr: false
+share_reddit: false
+share_stumbleupon: false
+share_hackernews: true
 
 # Build settings
 markdown: kramdown
-
-# Plugins
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
+permalink: /blog/:year/:month/:day/:title/
+paginate: 4
+sass:
+  compressed: true
 gems:
+  - jekyll-sitemap
   - jemoji
-
-# Analytics
-analytics:
-  tracking_id: 'UA-65897328-1'
