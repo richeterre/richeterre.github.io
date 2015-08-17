@@ -16,7 +16,9 @@
   color: $hljs-number;
 }
 
-.highlight .s1 {
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
   color: $hljs-string;
 }
 
