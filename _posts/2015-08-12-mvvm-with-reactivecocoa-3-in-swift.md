@@ -33,7 +33,13 @@ The result is, somewhat predictably, __[SwiftGoal][swiftgoal]__ – now on GitHu
 
 ## What's Next
 
-In the upcoming posts, I will explain my learnings in more detail, answering all the above questions as well as the following:
+In the upcoming posts, I will explain my learnings in more detail and address all the questions mentioned earlier,
+
+* [How to handle navigation and pass data between views?]({% post_url 2015-08-20-navigation-with-mvvm-on-ios %})
+* How to share state between views?
+* How to report "loading" activity from a view model to a view?
+
+ as well as the following:
 
 * How to replace (most) singletons by dependency injection, and how this benefits unit testing
 * How to use changesets to animate row changes in a table view
