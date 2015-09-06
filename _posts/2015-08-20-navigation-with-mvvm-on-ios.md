@@ -69,8 +69,9 @@ func editViewModelForIndexPath(indexPath: NSIndexPath) -> EditMatchViewModel {
 
 {% endhighlight %}
 
-It's as simple as that and, as we soon shall see, really testable too.
+It's as simple as that, and [as the codebase shows][matchesviewmodelspec], really testable too.
 
 [mvvm-reactivecocoa3-swift]: {% post_url 2015-08-12-mvvm-with-reactivecocoa-3-in-swift %}
 [swiftgoal]: https://github.com/richeterre/SwiftGoal
 [matchesviewmodel-data-source]: https://github.com/richeterre/SwiftGoal/blob/v1.0/SwiftGoal/ViewModels/MatchesViewModel.swift#L94-L117
+[matchesviewmodelspec]: https://github.com/richeterre/SwiftGoal/blob/v1.0/SwiftGoalTests/ViewModels/MatchesViewModelSpec.swift#L144-L157
