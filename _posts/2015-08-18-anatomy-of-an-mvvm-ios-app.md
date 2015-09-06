@@ -7,7 +7,7 @@ summary: "A high-level overview of the different parts that make up an MVVM app 
 
 _This is the second post in my series on [MVVM with Reactive Cocoa 3 in Swift][mvvm-reactivecocoa3-swift]._
 
-Before tackling some of the questions presented in the last post, let's take a closer look at the different parts of the [SwiftGoal][swiftgoal] app!
+Before tackling some of the questions presented in the [previous post]({% post_url 2015-08-12-mvvm-with-reactivecocoa-3-in-swift %}), let's take a closer look at the different parts of the [SwiftGoal][swiftgoal] app!
 
 Its basic idea is quickly explained: After adding some pals and yourself as players, you can add your played matches along with the results, edit and delete them if needed, and see player rankings on a separate tab.
 
@@ -33,7 +33,7 @@ self.window?.rootViewController = tabBarController
 
 {% endhighlight %}
 
-There's a veritable chain of dependency injection going on here! First, a __store__ is created with the base URL. It is then passed to two different __view models__, which in turn are injected into their respective __views__. I found that this approach has some benefits over singletons à la `Store.sharedStore()`, such as letting us change the base URL without messing up the app's internal state, and far easier unit testing. This will be covered in more detail in an upcoming post!
+There's a veritable chain of dependency injection going on here! First, a __store__ is created with the base URL. It is then passed to two different __view models__, which in turn are injected into their respective __views__. I found that this approach has some benefits over singletons à la `Store.sharedStore()`, such as letting us change the base URL without messing up the app's internal state, and far easier unit testing. This is covered in more detail in a [later post]({% post_url 2015-09-06-how-getting-rid-of-singletons-boosts-testability %})!
 
 ## Models
 
