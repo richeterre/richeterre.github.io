@@ -36,7 +36,7 @@ The result is, somewhat predictably, __[SwiftGoal][swiftgoal]__ – now on GitHu
 In the upcoming posts, I will explain my learnings in more detail and address all the questions mentioned earlier,
 
 * [How to handle navigation and pass data between views?]({% post_url 2015-08-20-navigation-with-mvvm-on-ios %})
-* How to share state between views?
+* [How to share state between views?]({% post_url 2015-10-13-sharing-state-between-views-with-mvvm %})
 * How to report "loading" activity from a view model to a view?
 
  as well as the following:
