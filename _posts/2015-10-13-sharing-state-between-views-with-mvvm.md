@@ -5,7 +5,7 @@ date: 2015-10-13 00:58:00 +0200
 summary: "No view is an island, and often they like to depend on each other in intricate ways. Luckily, view models offer some nice ways to share state without losing your sanity."
 ---
 
-_This is the fifth post in my series on [MVVM with Reactive Cocoa 3 in Swift][mvvm-reactivecocoa3-swift]._
+_This is the fifth post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][mvvm-reactivecocoa3-swift]._
 
 The web offers plenty of MVVM tutorials, which I found a great resource to get started on the topic. However, they tend to feature view classes living in isolation, each backed by their own view model, and stop short of addressing cases where two or more `UIViewController` instances need to share some real-time information between each other. Such scenarios may involve, for instance, item selection or validation of user input.
 

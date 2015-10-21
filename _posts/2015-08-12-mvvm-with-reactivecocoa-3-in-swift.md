@@ -5,6 +5,10 @@ date: 2015-08-12 01:45:00 +0200
 summary: "There are plenty of good introductions to the MVVM architecture on iOS. The next challenge is to apply these concepts in a real-world scenario! To find out how this could look like, I created an open-source Swift app that interacts with a remote server, using the brand-new ReactiveCocoa 3."
 ---
 
+*__Update, 22 Oct 2015:__ The ReactiveCocoa core team [recently decided][rac-3-vs-4] to increment their major version alongside Swift. So while ReactiveCocoa 4 will use Swift 2, conceptually it stays very close to its Swift 1.2 counterpart, ReactiveCocoa 3. The required code changes are illustrated in my [ReactiveCocoa 4 migration example][migrating-to-swift-2-and-reactivecocoa-4].*
+
+<hr>
+
 Despite its somewhat unwieldy name, the __Model-View-ViewModel (MVVM)__ architecture has been gaining lots of traction in the iOS developer community in the last few years. This is no coincidence, as during that time, said community has also acquired a taste for [unit testing][nshipster-unit-testing] and [reactive programming][reactivecocoa], both of which are closely related to the concept, as we shall see.
 
 MVVM promises to do away with the spaghettification that plagues many vanilla codebases which follow Apple's recommended structure, especially as their view controllers grow to [epic proportions][massive-view-controller]. It recognizes that view controllers are basically glorified views, and introduces a new layer between data (model) and presentation (view): the view model.
@@ -46,6 +50,8 @@ In the upcoming posts, I will explain my learnings in more detail and address al
 * How to choose between mutable properties and signals in RAC 3
 * How to set up actions on view models in Swift to asynchronously handle user input
 
+[rac-3-vs-4]: https://github.com/ReactiveCocoa/ReactiveCocoa/issues/2327
+[migrating-to-swift-2-and-reactivecocoa-4]: {% post_url 2015-10-22-migrating-to-swift-2-and-reactivecocoa-4 %}
 [nshipster-unit-testing]: http://nshipster.com/unit-testing/
 [reactivecocoa]: http://github.com/ReactiveCocoa/ReactiveCocoa
 [massive-view-controller]: https://twitter.com/colin_campbell/status/293167951132098560

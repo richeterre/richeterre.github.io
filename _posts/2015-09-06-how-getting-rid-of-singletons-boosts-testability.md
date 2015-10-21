@@ -6,7 +6,7 @@ summary: "The MVVM architecture can help bring your app to a much more testable 
 
 ---
 
-_This is the fourth post in my series on [MVVM with Reactive Cocoa 3 in Swift][mvvm-reactivecocoa3-swift]._
+_This is the fourth post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][mvvm-reactivecocoa3-swift]._
 
 ## The problem with singletons
 

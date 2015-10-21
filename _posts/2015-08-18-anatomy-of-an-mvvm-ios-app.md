@@ -5,7 +5,7 @@ date: 2015-08-18 00:55:00 +0200
 summary: "A high-level overview of the different parts that make up an MVVM app and how they relate to each other, spiced with a few code examples."
 ---
 
-_This is the second post in my series on [MVVM with Reactive Cocoa 3 in Swift][mvvm-reactivecocoa3-swift]._
+_This is the second post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][mvvm-reactivecocoa3-swift]._
 
 Before tackling some of the questions presented in the [previous post]({% post_url 2015-08-12-mvvm-with-reactivecocoa-3-in-swift %}), let's take a closer look at the different parts of the [SwiftGoal][swiftgoal] app!
 

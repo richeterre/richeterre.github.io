@@ -5,7 +5,7 @@ date: 2015-08-20 11:10:00 +0200
 summary: "How to pass data when transitioning between views, without breaking the MVVM pattern."
 ---
 
-_This is the third post in my series on [MVVM with Reactive Cocoa 3 in Swift][mvvm-reactivecocoa3-swift]._
+_This is the third post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][mvvm-reactivecocoa3-swift]._
 
 One of the things that puzzled me the most when beginning to explore MVVM on iOS was how to do navigation between view controllers. The [SwiftGoal][swiftgoal] app, for instance, may have a list of matches that the user has already created. But everyone makes mistakes, and so we want to allow changes by modally presenting an "Edit Match" screen when the user taps on a match while in table edit mode.
 
