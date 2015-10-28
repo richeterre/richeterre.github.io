@@ -5,6 +5,10 @@ date: 2015-10-22 00:30:00 +0200
 summary: "The Swift language is moving fast, and Xcode 7 requires Swift 2. Here's what you need to do to bring ReactiveCocoa 4 with Swift 2 support to your project."
 ---
 
+*__Update, 28 Oct 2015:__ Adjusted the post for ReactiveCocoa 4's alpha 3 pre-release.*
+
+---
+
 _This is the sixth post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][mvvm-reactivecocoa3-swift]._
 
 With Xcode 7's public release out of the door, and myself being in the lucky position of working on a bleeding-edge project at the moment, I boldly went ahead and threw Xcode 6 off my development machine.
@@ -24,10 +28,10 @@ SwiftGoal currently has four dependencies:
 
 plus the [Quick][quick]/[Nimble][nimble] testing combo, listed in a separate [private Cartfile][private-cartfile].
 
-All of the above support Swift 2 in their latest releases, with the exception of ReactiveCocoa, whose official release still targets Xcode 6 and Swift 1.2. So we need to explicitly specify its [alpha pre-release][rac-4-alpha-1] with Swift 2 support in the `Cartfile`:
+All of the above support Swift 2 in their latest releases, with the exception of ReactiveCocoa, whose official release still targets Xcode 6 and Swift 1.2. So we need to explicitly specify its [alpha pre-release][rac-4-alpha-3] with Swift 2 support in the `Cartfile`:
 
     github "dzenbot/DZNEmptyDataSet"
-    github "ReactiveCocoa/ReactiveCocoa" "v4.0-alpha.1"
+    github "ReactiveCocoa/ReactiveCocoa" "v4.0.0-alpha.3"
     github "SnapKit/SnapKit"
     github "thoughtbot/Argo"
 
@@ -80,7 +84,14 @@ Swift 2 introduced a number of concepts such as protocol extensions and error ha
 
 The most notable change is the replacement of ReactiveCocoa 3's ubiquitous `|>` operator by the more familiar __dot syntax__. Find & Replace was my friend here.
 
-To represent a __sink__, instead of `SinkOf<Event<Bool, NoError>>` we now directly use the function signature: `Event<Bool, NoError> -> ()`
+__Sinks__ have been [replaced][observers-replacing-sinks] by __observers__ that also bring along some dot syntax goodness. Instead of defining a sink of type `SinkOf<Event<Bool, NoError>>` and passing it to the free function `sendNext()` alongside its next value, we now write
+
+{% highlight swift %}
+
+let observer = Observer<Bool, NoError>()
+observer.sendNext(true)
+
+{% endhighlight %}
 
 The __`flatMap` operator__ now requires the argument label `transform:` for the mapping function parameter. Xcode actually shows a helpful error message about this.
 
@@ -98,6 +109,9 @@ switch event {
     case let .Next(boxedValue):
         let value = boxedValue.value
         // Handle unboxed value
+    case let .Error(boxedError):
+        let error = boxedError.value
+        // Handle unboxed error
 }
 
 {% endhighlight %}
@@ -109,9 +123,13 @@ we can just write
 switch event {
     case let .Next(value):
         // Handle value
+    case let .Failed(error)
+        // Handle error
 }
 
 {% endhighlight %}
+
+Note how the __`.Error` case has been renamed to `.Failed`__ to better reflect the fact that signals can only ever send one such event before terminating.
 
 And finally, because of the naming conflict with Swift's new error handling syntax, __`catch` has been renamed to `flatMapError`__. It continues to work exactly as before.
 
@@ -152,10 +170,11 @@ Let's build great stuff! :rocket:
 [quick]: https://github.com/Quick/Quick
 [nimble]: https://github.com/Quick/Nimble
 [private-cartfile]: https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfileprivate
-[rac-4-alpha-1]: https://github.com/ReactiveCocoa/ReactiveCocoa/releases/tag/v4.0-alpha.1
+[rac-4-alpha-3]: https://github.com/ReactiveCocoa/ReactiveCocoa/releases/tag/v4.0.0-alpha.3
 [box-removal]: https://github.com/ReactiveCocoa/ReactiveCocoa/commit/be78f5feabcf1d211c176f34a3cdad173feb904c
 [runes-removal]: https://github.com/thoughtbot/Argo/commit/073ea9f81b8ad167b784bd7fa2da5d84a5b2a15b
 [burn-pipe-gt]: https://github.com/ReactiveCocoa/ReactiveCocoa/commit/11952aae5013d82b3365e4c06b9e36a462ed8d7d
 [angry-justin]: https://twitter.com/jspahrsummers/status/608066730250924032
+[observers-replacing-sinks]: https://github.com/ReactiveCocoa/ReactiveCocoa/pull/2442
 [goalbase]: https://github.com/richeterre/goalbase
 [transport-security-commit]: https://github.com/richeterre/SwiftGoal/commit/fb28015f8b82dbdc24fb1951361d5c5172629e27
