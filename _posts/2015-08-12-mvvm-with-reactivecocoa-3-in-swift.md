@@ -46,7 +46,7 @@ In the upcoming posts, I will explain my learnings in more detail and address al
  as well as the following:
 
 * [How to replace (most) singletons by dependency injection, and how this benefits unit testing]({% post_url 2015-09-06-how-getting-rid-of-singletons-boosts-testability %})
-* How to use changesets to animate row changes in a table view
+* [How to use changesets to animate row changes in a table view]({% post_url 2015-12-30-animating-table-row-changes-using-changesets-with-mvvm %})
 * How to choose between mutable properties and signals in RAC 3
 * How to set up actions on view models in Swift to asynchronously handle user input
 
