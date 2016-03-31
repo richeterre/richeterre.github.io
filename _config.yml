@@ -47,14 +47,14 @@ share_stumbleupon: false
 share_hackernews: true
 
 # Build settings
-markdown: kramdown
-redcarpet:
-  extensions: ['smart', 'tables', 'with_toc_data']
+kramdown:
+  input: GFM
 permalink: /blog/:year/:month/:day/:title/
 timezone: Europe/Berlin
 paginate: 4
 sass:
   compressed: true
 gems:
+  - jekyll-paginate
   - jekyll-sitemap
   - jemoji
