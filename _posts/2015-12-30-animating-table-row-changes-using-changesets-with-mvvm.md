@@ -15,8 +15,7 @@ In MVVM and similar architectures, the view controller is no longer in charge of
 
 When starting to write the [SwiftGoal][swiftgoal] showcase app, I opted for a very simple refresh mechanism: Every time there was new data, the view model would emit a `Bool` of value `true` (today I realize that I should have used `Void` instead, as the actual value was discarded anyway) on a signal called `updatedContentSignal`. The table view controller could then subscribe to the signal like so:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewController.swift
 
 viewModel.updatedContentSignal
@@ -24,8 +23,7 @@ viewModel.updatedContentSignal
     |> observe(next: { [weak self] _ in
         self?.tableView.reloadData()
     })
-
-{% endhighlight %}
+```
 
 This would cause the table view to ask its data source for new data and completely refresh itself, without visually indicating what rows actually changed.
 
@@ -35,20 +33,17 @@ After the initial fetch, an application's data rarely changes in its entirety. I
 
 To build this, we have to adjust our view model's API a little. The view must not only know _when_ to refresh, but also what rows are affected. However, the actual content will still be loaded in a pull-driven fashion from the table view's data source. So our exposed signal, now renamed to reflect the new behavior, looks like this:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewModel.swift
 
 let contentChangesSignal: Signal<Changeset, NoError>
-
-{% endhighlight %}
+```
 
 The `Changeset` is a [little data structure I wrote][swiftgoal-changeset-v1.0] that encapsulates two arrays of `NSIndexPath` instances, one for deletions and one for insertions. Its initializer takes two arrays, `oldItems` and `newItems`, and populates its index path arrays accordingly.
 
 How then do we generate these changesets for the signal? After all, each changeset carries information that depends on our data's _current and previous_ state. But here's the beauty of functional reactive programming: It turns out that ReactiveCocoa comes with an [operator][reactivecocoa-combineprevious] that effectively makes this a one-liner! Can you spot it?
 
-{% highlight swift %}
-
+```swift
 // MatchesViewModel.swift
 // (code adjusted for readability)
 
@@ -70,13 +65,11 @@ refreshSignal
             observer.sendNext(changeset)
         }
     })
-
-{% endhighlight %}
+```
 
 Whenever a new array of matches arrives from the store and gets flattened onto the main signal chain, `combinePrevious` will combine it with the one sent right before it, returning a tuple of type `([Match], [Match])` that we can pass to the changeset initializer. (The empty array `[]` provided by us as a parameter is used for the initial value.) Finally, the resulting changeset is sent to an observer that feeds our `contentChangesSignal`. We also update the `self.matches` property with our new data to ensure that the table view can properly refresh its content:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewController.swift
 
 viewModel.contentChangesSignal
@@ -89,8 +82,7 @@ viewModel.contentChangesSignal
         tableView.insertRowsAtIndexPaths(changeset.insertions, withRowAnimation: .Automatic)
         tableView.endUpdates()
     })
-
-{% endhighlight %}
+```
 
 ## A word on equality
 
@@ -98,8 +90,7 @@ Equality is a powerful concept that has inspired [fantastic posts][nshipster-equ
 
 Let's take the example of a match. It has a unique identifier (`String`), two `[Player]` arrays with home and away players, respectively, and two `Int` properties for home and away goals. As the view currently only handles deletions and insertions, but not modifications, two matches that have the same identifier but e.g. different home goal counts must be treated as _not equal_, or else our table view would not refresh the data correctly.
 
-{% highlight swift %}
-
+```swift
 // Match.swift
 
 extension Match: Equatable {}
@@ -111,8 +102,7 @@ public func ==(lhs: Match, rhs: Match) -> Bool {
         && lhs.homeGoals == rhs.homeGoals
         && lhs.awayGoals == rhs.awayGoals
 }
-
-{% endhighlight %}
+```
 
 So this works, but there is a UX flaw: In the aforementioned scenario where some property _within_ the same real-world match changes, the cell in question would animate out as if deleted, only to be replaced by a newly inserted cell with the updated content. This is acceptable, but not great, so let's improve the code further!
 
@@ -124,8 +114,7 @@ In the case of SwiftGoal's match list, the answer is clear: Adding and deleting 
 
 We can override the `==` operator to check whether two `Match` instances represent the same, "timeless" real-world entity.[^2] The way to tell is to look at their identifier. This means that our earlier comparison function can be simplified to
 
-{% highlight swift %}
-
+```swift
 // Match.swift
 
 extension Match: Equatable {}
@@ -133,13 +122,11 @@ extension Match: Equatable {}
 public func ==(lhs: Match, rhs: Match) -> Bool {
     return lhs.identifier == rhs.identifier
 }
-
-{% endhighlight %}
+```
 
 For content equality, we need a different function that looks at other fields than just the identifier. Let's call it `contentMatches` and define it like so:
 
-{% highlight swift %}
-
+```swift
 // Match.swift
 
 extension Match: Equatable {}
@@ -151,15 +138,13 @@ static func contentMatches(lhs: Match, _ rhs: Match) -> Bool {
         && lhs.homeGoals == rhs.homeGoals
         && lhs.awayGoals == rhs.awayGoals
 }
-
-{% endhighlight %}
+```
 
 Note how any nested models (in this case, the two `Player` arrays) _must be tested for matching content, too_. Suppose that a player's name has changed and then gets shown as part of an otherwise unchanged match in the table view. Merely checking player identity would result in a visible bug, as the cell would not refresh its contents. Inside the `Player` model, comparing content happens the same way as for matches.[^3]
 
 Equipped with these comparison tools, we can now initialize changesets with two arrays (the old and new items) and our content matching function:
 
-{% highlight swift %}
-
+```swift
 // Changeset.swift
 
 typealias ContentMatches = (T, T) -> Bool
@@ -183,8 +168,7 @@ init(oldItems: [T], newItems: [T], contentMatches: ContentMatches) {
         return NSIndexPath(forRow: newItems.indexOf(item)!, inSection: 0)
     }
 }
-
-{% endhighlight %}
+```
 
 For deletions and insertions, we grab the indices of all items that differ. For modifications, we filter the items common to both arrays based on whether their content matches, and store their indices. (The `difference` and `intersection` array extensions are defined in a separate file and do exactly what it says on the tin :relaxed:)
 
@@ -192,8 +176,7 @@ By the way, this kind of code should rank very high on your "make sure to test t
 
 Finally, we must add one single line of code to our view controller to make sure it also reloads the index paths that are marked as modified in the changeset:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewController.swift
 
 viewModel.contentChangesSignal
@@ -207,8 +190,7 @@ viewModel.contentChangesSignal
         tableView.insertRowsAtIndexPaths(changeset.insertions, withRowAnimation: .Automatic)
         tableView.endUpdates()
     })
-
-{% endhighlight %}
+```
 
 ## Summary
 

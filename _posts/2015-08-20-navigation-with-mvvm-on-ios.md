@@ -18,31 +18,26 @@ After considering this for a while, I realized that although technically possibl
 
 Ideally, we want to keep the view controller's view model in a private, immutable and non-optional property. That way, we can use it with confidence, knowing that it isn't `nil`, hasn't suddenly changed under our nose, and is in fact wholly invisible to the outside world:
 
-{% highlight swift %}
-
+```swift
 // EditMatchViewController.swift
 
 private let viewModel: EditMatchViewModel
-
-{% endhighlight %}
+```
 
 Since we now _must_ have the view model ready at initialization, we can make it part of the designated initializer,
 
-{% highlight swift %}
-
+```swift
 // EditMatchViewController.swift
 
 init(viewModel: EditMatchViewModel) {
     self.viewModel = viewModel
     // …
 }
-
-{% endhighlight %}
+```
 
 and move the responsibility for _creating_ that `EditMatchViewModel` to our `MatchesViewModel`, while _assigning_ in the view controller:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewController.swift
 // (code adjusted for readability)
 
@@ -50,15 +45,13 @@ let editMatchVM = self.viewModel.editViewModelForIndexPath(indexPath)
 let editMatchVC = EditMatchViewController(viewModel: editMatchViewModel)
 let editMatchNC = UINavigationController(rootViewController: editMatchVC)
 self.presentViewController(editMatchNC, animated: true, completion: nil)
-
-{% endhighlight %}
+```
 
 Note how we keep the view controller stupid by never even letting it know what exactly goes into the `EditMatchViewModel`! All it cares about is receiving an instance of the right type to inject into the newly created `EditMatchViewController`, which it then presents to the user. (Of course, this method also works with push navigation and other presentation modes, as the actual transition happens completely in the view controller.)
 
 You may already have guessed what's happening behind the scenes. The view model knows exactly how to get a `Match` with the given index path, and what to do with it:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewModel.swift
 // (code adjusted for readability)
 
@@ -66,8 +59,7 @@ func editViewModelForIndexPath(indexPath: NSIndexPath) -> EditMatchViewModel {
     let match = matchAtIndexPath(indexPath)
     return EditMatchViewModel(store: store, match: match)
 }
-
-{% endhighlight %}
+```
 
 It's as simple as that, and [as the codebase shows][matchesviewmodelspec], really testable too.
 

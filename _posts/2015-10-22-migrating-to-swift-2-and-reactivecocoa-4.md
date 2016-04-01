@@ -46,35 +46,29 @@ As Carthage requires us to add frameworks to the project manually, we also need 
 
 After updating the frameworks, half of my code was painted red with build errors. I started off by fixing those caused by changes to the Swift standard library. For instance, collection operators like `enumerate` and `count` are now implemented as __protocol extensions__, leading to the new syntax
 
-{% highlight swift %}
-
+```swift
 [1, 2, 3].enumerate()
 [1, 2, 3].count
 ["one, two"].joinWithSeparator(", ")
-
-{% endhighlight %}
+```
 
 replacing the old way of passing the array as a parameter to the function.
 
 Another big addition to Swift 2 is __error handling__, which frees us from the outdated concept of having to pass an error pointer. For instance, `NSJSONSerialization`'s method `JSONObjectWithData:options:error` has lost its trailing `error` parameter. To deserialize received backend data into JSON, I use the new `try?` syntax that returns `nil` upon failure:
 
-{% highlight swift %}
-
+```swift
 if let json = try? NSJSONObjectWithData(data, options: []) {
     // Parse JSON into model
 }
-
-{% endhighlight %}
+```
 
 Swift's somewhat confusing hash (`#`) syntax to explicitly name the first function parameter has been removed; this is now achieved by repeating the parameter name instead, or simply making it part of the function name as I did:
 
-{% highlight swift %}
-
+```swift
 func createPlayerWithName(name: String) -> SignalProducer<Bool, NSError> {
     // Make request that creates the player server-side
 }
-
-{% endhighlight %}
+```
 
 And finally, the pesky but `required init?(coder aDecoder: NSCoder)` is now a failable initializer, which is reflected by the newly inserted question mark.
 
@@ -86,12 +80,10 @@ The most notable change is the replacement of ReactiveCocoa 3's ubiquitous `|>` 
 
 __Sinks__ have been [replaced][observers-replacing-sinks] by __observers__ that also bring along some dot syntax goodness. Instead of defining a sink of type `SinkOf<Event<Bool, NoError>>` and passing it to the free function `sendNext()` alongside its next value, we now write
 
-{% highlight swift %}
-
+```swift
 let observer = Observer<Bool, NoError>()
 observer.sendNext(true)
-
-{% endhighlight %}
+```
 
 The __`flatMap` operator__ now requires the argument label `transform:` for the mapping function parameter. Xcode actually shows a helpful error message about this.
 
@@ -103,8 +95,7 @@ The __`collect` operator__, which buffers sent signal values into an array and s
 
 When pattern-matching ReactiveCocoa events, we can now __directly access their associated value__ – no need to unbox it anymore. So instead of
 
-{% highlight swift %}
-
+```swift
 switch event {
     case let .Next(boxedValue):
         let value = boxedValue.value
@@ -113,21 +104,18 @@ switch event {
         let error = boxedError.value
         // Handle unboxed error
 }
-
-{% endhighlight %}
+```
 
 we can just write
 
-{% highlight swift %}
-
+```swift
 switch event {
     case let .Next(value):
         // Handle value
     case let .Failed(error)
         // Handle error
 }
-
-{% endhighlight %}
+```
 
 Note how the __`.Error` case has been renamed to `.Failed`__ to better reflect the fact that signals can only ever send one such event before terminating.
 
@@ -137,13 +125,11 @@ And finally, because of the naming conflict with Swift's new error handling synt
 
 In Xcode 7, it is finally no longer necessary to make all your methods `public` to be able to test them. Instead, in your test suite you can import your module alongside your testing frameworks like so:
 
-{% highlight swift %}
-
+```swift
 import Quick
 import Nimble
 @testable import SwiftGoal
-
-{% endhighlight %}
+```
 
 That way, all your APIs marked as `internal` (which is the default) will become available in your test suite, yet won't pollute the global namespace.
 

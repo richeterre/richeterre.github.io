@@ -12,25 +12,21 @@ _This is the fourth post in my series on [MVVM with ReactiveCocoa 3/4 in Swift][
 
 In the past, I used to write a lot of code like this to retrieve my model objects:
 
-{% highlight swift %}
-
+```swift
 let matches = Store.sharedInstance().fetchMatches()
-
-{% endhighlight %}
+```
 
 (Of course, `Store` could also be called differently. Common choices are `APIClient`, `NetworkManager` or, in this case, `MatchStore`.)
 
 At some point I learned about reactive programming and realized that `fetchMatches()` should probably be made asynchronous. It should also starts its work whenever someone is interested in the result. ReactiveCocoa 3 offers [signal producers][rac-signalproducer] to solve this problem:
 
-{% highlight swift %}
-
+```swift
 let matchesSignalProducer = Store.sharedInstance().fetchMatches()
 
 matchesSignalProducer.start(next: { [weak self] matches in
     self?.matches = matches
 })
-
-{% endhighlight %}
+```
 
 In an MVVM app such as [SwiftGoal][swiftgoal], the above code would reside in a view model. One of the architecture's "selling points" is that your app logic becomes more testable, because it resides in view models that define inputs and outputs. This is, after all, the essence of testing: _Does the class yield the correct output for a given input?_
 
@@ -45,21 +41,18 @@ It turns out that our `Store` being a singleton becomes quite a blocker here. Ho
 
 As I described in an [earlier post][anatomy-of-an-mvvm-ios-app], we can clean up our app's spaghetti-like dependency graph by passing references to instances that a class relies on, preferably during initialization. Swift is particularly nice here, because we can easily declare a designated initializer to make this requirement explicit:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewModel.swift
 
 init(store: Store) {
     self.store = store
     // …
 }
-
-{% endhighlight %}
+```
 
 Now it's perfectly clear for any consumer of this view model that it requires a `Store` instance to work with. In our test suite, we can simply subclass `Store` with a `MockStore`, override the `fetchMatches()` method, and return a known amount of matches that will allow us to write simple, but powerful tests like the one described above. We can even set a flag to check whether the method was called correctly.
 
-{% highlight swift %}
-
+```swift
 class MockStore: Store {
     // …
     var didFetchMatches = false
@@ -82,8 +75,7 @@ class MatchesViewModelSpec: QuickSpec {
         }
     }
 }
-
-{% endhighlight %}
+```
 
 ## Growing confidence
 

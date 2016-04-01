@@ -19,8 +19,7 @@ Intuitively, we would probably solve this with delegation: The `EditMatchViewMod
 
 The most natural place to set up the relationship between the two view models is where one gets created by the other:
 
-{% highlight swift %}
-
+```swift
 // EditMatchViewModel.swift
 
 public func manageHomePlayersViewModel() -> ManagePlayersViewModel {
@@ -33,8 +32,7 @@ public func manageHomePlayersViewModel() -> ManagePlayersViewModel {
 
     return homePlayersViewModel
 }
-
-{% endhighlight %}
+```
 
 In the above code excerpt, we set up the binding between `self.homePlayers` and the `selectedPlayers` array right between creating the `ManagePlayersViewModel` and returning it to the calling view controller.
 
@@ -46,8 +44,7 @@ Presenting the simple form (which has a single field for the new player's name) 
 
 Instead, we can __share a single view model__ between the two views to represent their shared state. The below code example illustrates the creation of the modal player form within its presenting `ManagePlayersViewController`. In fact, the modal form is so simple that we can implement it with a simple `UIAlertController` holding a text field:
 
-{% highlight swift %}
-
+```swift
 // ManagePlayersViewController.swift
 // (code adjusted for readability)
 
@@ -82,8 +79,7 @@ newPlayerVC.addTextFieldWithConfigurationHandler { textField in
 if let nameField = newPlayerVC.textFields?.first as? UITextField {
     viewModel.playerName <~ nameField.signalProducer()
 }
-
-{% endhighlight %}
+```
 
 Note how the bindings for the player name field and the save action, which becomes enabled only for valid input, are set up between the modal form and the now shared `ManagePlayersViewModel`. The view model's `saveAction` kicks off the new player's creation, and triggers a refresh signal upon success. That signal is observed by the `ManagePlayersViewController` to reload its table view accordingly.
 

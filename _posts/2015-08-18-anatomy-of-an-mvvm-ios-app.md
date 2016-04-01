@@ -17,8 +17,7 @@ A good place to start exploring an app's codebase is usually the app delegate, w
 
 The view hierarchy is set up in `application:didFinishLaunchingWithOptions:` in a manner similar to this:
 
-{% highlight swift %}
-
+```swift
 let store = Store(baseURL: baseURL)
 
 let matchesViewModel = MatchesViewModel(store: store)
@@ -30,8 +29,7 @@ let rankingsViewController = RankingsViewController(viewModel: rankingsViewModel
 let tabBarController = UITabBarController()
 tabBarController.viewControllers = [matchesViewController, rankingsViewController]
 self.window?.rootViewController = tabBarController
-
-{% endhighlight %}
+```
 
 There's a veritable chain of dependency injection going on here! First, a __store__ is created with the base URL. It is then passed to two different __view models__, which in turn are injected into their respective __views__. I found that this approach has some benefits over singletons à la `Store.sharedStore()`, such as letting us change the base URL without messing up the app's internal state, and far easier unit testing. This is covered in more detail in a [later post]({% post_url 2015-09-06-how-getting-rid-of-singletons-boosts-testability %})!
 
@@ -52,15 +50,13 @@ The store layer is responsible for vending model instances and thus knows how to
 
 As stores tend to deal with asynchronous activities such as network requests, their API cannot instantly return anything. Instead, the data's future presence is represented by ReactiveCocoa 3's new `SignalProducer` type:
 
-{% highlight swift %}
-
+```swift
 // Store.swift
 
 func fetchMatches() -> SignalProducer<[Match], NSError> {
     // …
 }
-
-{% endhighlight %}
+```
 
 No actual work is done until the returned `SignalProducer` is started, which is a job for the …
 
@@ -70,8 +66,7 @@ The view models are where the magic happens: They receive some form of input fro
 
 As an example, here are the `MatchesViewModel`'s inputs and outputs, beautifully self-documented by Swift's type system in ReactiveCocoa 3:
 
-{% highlight swift %}
-
+```swift
 // Inputs
 let active = MutableProperty<Bool>
 let refreshSink: SinkOf<Event<Void, NoError>>
@@ -81,8 +76,7 @@ let title: String
 let contentChangesSignal: Signal<Changeset, NoError>
 let isLoading: MutableProperty<Bool>
 let alertMessageSignal: Signal<String, NoError>
-
-{% endhighlight %}
+```
 
 Just looking at these few lines, which are conveniently at the top of the file, give you an excellent idea of what this view model does. The view needs to tell it
 
@@ -98,16 +92,14 @@ The view model provides
 
 Note how there is no actual model data transmitted here, only the _locations_ that change! The view can then request formatted data for each index path by calling methods like this one:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewModel.swift
 
 public func homePlayersAtIndexPath(indexPath: NSIndexPath) -> String {
     let match = matchAtIndexPath(indexPath)
     return separatedNamesForPlayers(match.homePlayers)
 }
-
-{% endhighlight %}
+```
 
 ## Views
 
@@ -115,8 +107,7 @@ At the top of our food chain are the views, which are as powerful as they are st
 
 This is done by declaring the relationships between the view model's outputs and the view's behavior in the `bindViewModel` method:
 
-{% highlight swift %}
-
+```swift
 // MatchesViewController.swift
 
 private func bindViewModel() {
@@ -143,8 +134,7 @@ private func bindViewModel() {
 
     // …
 }
-
-{% endhighlight %}
+```
 
 (It's important to observe all UI-related signals on the `UIScheduler` representing the main thread. Failing to do so can lead to strange behavior, such as table views suddenly refreshing upon scrolling.)
 
