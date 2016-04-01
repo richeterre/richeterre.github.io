@@ -1,7 +1,7 @@
 ---
 # The scss file which include files from _sass/
 ---
-@charset "utf-8";
+@charset "UTF-8";
 
 /*!
 * Pixyll - A simple, beautiful Jekyll theme that's mobile first.
@@ -25,7 +25,6 @@
 @import 'header';
 @import 'tables';
 @import 'animations';
-@import 'tables';
 @import 'footer';
 @import 'social-icons';
 @import 'blockquotes';
