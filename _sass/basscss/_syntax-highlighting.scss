@@ -16,9 +16,12 @@
 .highlight .kd,
 .highlight .kn,
 .highlight .kr,
-.highlight .kt,
 .highlight .kp {
   color: $hljs-keyword;
+}
+
+.highlight .kt {
+  color: $hljs-type;
 }
 
 .highlight .na,
